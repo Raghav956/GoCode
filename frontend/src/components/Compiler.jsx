@@ -84,7 +84,7 @@ public class Main {
     try {
 
       const res = await fetch(
-        "http://localhost:8000/run",
+        `${import.meta.env.VITE_COMPILER_URL}/run`,
         {
           method: "POST",
 
@@ -133,7 +133,7 @@ public class Main {
 
         const res =
           await fetch(
-            "http://localhost:5000/submit",
+            `${import.meta.env.VITE_API_URL}/submit`,
             {
               method: "POST",
 
@@ -178,7 +178,7 @@ public class Main {
 
         const res =
           await fetch(
-            "http://localhost:5000/ai/review",
+            `${import.meta.env.VITE_API_URL}/ai/review`,
             {
               method: "POST",
 
