@@ -15,8 +15,13 @@ const submissionRoutes = require(
 const leaderboardRoutes =
   require("./routes/leaderboard");
 const app = express();
-
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      "https://go-code-six.vercel.app",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 mongoose
@@ -24,7 +29,7 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-app.use("/", authRoutes);
+app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.json({
