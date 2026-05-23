@@ -3,26 +3,32 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const app = express();
+app.use(
+  cors({
+    origin: [
+  "https://gocode.store",
+  "https://www.gocode.store",
+  "https://go-code-six.vercel.app",
+  "http://localhost:5173",
+],
+    credentials: true,
+  })
+);
+app.use(express.json());
 const aiRoutes = require("./routes/ai");
 const authRoutes = require("./routes/auth");
 
 const problemRoutes = require(
   "./routes/problems"
 );
+const compilerRoutes = require("./routes/compiler");
+
 const submissionRoutes = require(
   "./routes/submissions"
 );
 const leaderboardRoutes =
   require("./routes/leaderboard");
-const app = express();
-app.use(
-  cors({
-    origin:
-      "https://go-code-six.vercel.app",
-    credentials: true,
-  })
-);
-app.use(express.json());
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -39,6 +45,7 @@ app.get("/", (req, res) => {
 
 
 app.use("/problems", problemRoutes);
+app.use("/", compilerRoutes);
 app.use("/submit", submissionRoutes);
 app.use(
   "/leaderboard",

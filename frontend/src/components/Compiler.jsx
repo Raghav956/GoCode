@@ -61,6 +61,11 @@ public class Main {
   const [loading, setLoading] =
     useState(false);
 
+    const [
+  submitLoading,
+  setSubmitLoading,
+] = useState(false);
+
   const [review, setReview] =
     useState("");
 
@@ -122,49 +127,56 @@ public class Main {
   };
 
   const handleSubmit =
-    async () => {
+  async () => {
 
-      try {
+    try {
 
-        const userId =
-          localStorage.getItem(
-            "userId"
-          );
+      setSubmitLoading(true);
 
-        const res =
-          await fetch(
-            `${import.meta.env.VITE_API_URL}/submit`,
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json",
-              },
-
-              body: JSON.stringify({
-                userId,
-                problemId,
-                language,
-                code,
-              }),
-            }
-          );
-
-        const data =
-          await res.json();
-
-        setOutput(
-          data.verdict ||
-            data.error
+      const userId =
+        localStorage.getItem(
+          "userId"
         );
 
-      } catch (err) {
+      const res =
+        await fetch(
+          `${import.meta.env.VITE_API_URL}/submit`,
+          {
+            method: "POST",
 
-        setOutput(
-          "Submission failed"
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+              userId,
+              problemId,
+              language,
+              code,
+            }),
+          }
         );
-      }
+
+      const data =
+        await res.json();
+
+      setOutput(
+        data.verdict ||
+          data.error
+      );
+
+    } catch (err) {
+
+      setOutput(
+        "Submission failed"
+      );
+
+    } finally {
+
+      setSubmitLoading(false);
+
+    }
     };
 
   const handleReview =
@@ -278,36 +290,48 @@ public class Main {
 
         </select>
 
-        <button
-          onClick={handleRun}
-          className="px-6 py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-400 transition text-black font-bold shadow-lg"
-        >
+      <button
+  onClick={handleRun}
+  disabled={loading}
+  className={`px-6 py-3 rounded-2xl transition font-bold shadow-lg
+  ${
+    loading
+      ? "bg-cyan-300 opacity-60 cursor-not-allowed"
+      : "bg-cyan-500 hover:bg-cyan-400 text-black"
+  }`}
+>
 
-          {loading
-            ? "Running..."
-            : "Run Code"}
+  {loading
+    ? "Running..."
+    : "Run Code"}
 
-        </button>
+</button>
 
-        <button
-          onClick={handleSubmit}
-          className="px-6 py-3 rounded-2xl bg-blue-500 hover:bg-blue-400 transition text-white font-bold shadow-lg"
-        >
+       <button
+  onClick={handleSubmit}
+  disabled={submitLoading}
+  className={`px-6 py-3 rounded-2xl transition font-bold shadow-lg
+  ${
+    submitLoading
+      ? "bg-blue-300 opacity-60 cursor-not-allowed"
+      : "bg-blue-500 hover:bg-blue-400 text-white"
+  }`}
+>
+  {submitLoading
+    ? "Submitting..."
+    : "Submit"}
+</button>
 
-          Submit
-
-        </button>
-
-        <button
-          onClick={handleReview}
-          className="px-6 py-3 rounded-2xl bg-purple-500 hover:bg-purple-400 transition text-white font-bold shadow-lg"
-        >
-
-          {reviewLoading
-            ? "Reviewing..."
-            : "AI Review"}
-
-        </button>
+       <button
+  onClick={handleReview}
+  disabled={reviewLoading}
+  className={`px-6 py-3 rounded-2xl transition text-white font-bold shadow-lg
+  ${
+    reviewLoading
+      ? "bg-purple-300 opacity-60 cursor-not-allowed"
+      : "bg-purple-500 hover:bg-purple-400"
+  }`}
+></button>
 
       </div>
 
