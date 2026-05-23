@@ -17,7 +17,7 @@ function Problems() {
         setProblems(data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("UUHHHHH");
       });
 
   }, []);
