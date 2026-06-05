@@ -340,6 +340,7 @@ if (!token) {
 
 </button>
 
+{problemId && (
        <button
   onClick={handleSubmit}
   disabled={submitLoading}
@@ -354,8 +355,10 @@ if (!token) {
     ? "Submitting..."
     : "Submit"}
 </button>
+)}
 
        <button
+
   onClick={handleReview}
   disabled={reviewLoading}
   className={`px-6 py-3 rounded-2xl transition text-white font-bold shadow-lg
@@ -425,7 +428,7 @@ if (!token) {
 
     fontFamily:
       "Fira Code, monospace",
-      
+
        mouseWheelZoom: false,
     scrollbar: {
       alwaysConsumeMouseWheel: false,
