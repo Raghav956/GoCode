@@ -11,37 +11,28 @@ router.get("/", async (req, res) => {
 
   try {
 
-    const users =
-      await User.find();
+    const users = await User.find();
 
-    const leaderboard =
-      await Promise.all(
+    const leaderboard = await Promise.all(
 
-        users.map(
-          async (user) => {
+      users.map(async (user) => {
 
-            const solvedProblems =
-              await Submission.countDocuments({
+        const solvedProblems =
+          await Submission.distinct(
+            "problemId",
+            {
+              userId: user._id,
+              verdict: "Accepted",
+            }
+          );
 
-                userId: user._id,
-
-                verdict:
-                  "Accepted",
-              });
-
-           return {
-
-  userId: user._id,
-
-  name: user.name,
-
-  email: user.email,
-
-  solvedProblems,
-};
-          }
-        )
-      );
+        return {
+          userId: user._id,
+          name: user.name,
+          solvedProblems: solvedProblems.length,
+        };
+      })
+    );
 
     leaderboard.sort(
       (a, b) =>
@@ -49,14 +40,14 @@ router.get("/", async (req, res) => {
         a.solvedProblems
     );
 
-    res.json(
-      leaderboard
-    );
+    res.json(leaderboard);
 
   } catch (err) {
 
+    console.error(err);
+
     res.status(500).json({
-      error: err.message,
+      error: "Failed to fetch leaderboard",
     });
   }
 });

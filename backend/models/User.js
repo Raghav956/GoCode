@@ -16,6 +16,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  aiReviewsToday: {
+    type: Number,
+    default: 0,
+  },
+
+  lastReviewReset: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model(
