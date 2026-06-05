@@ -1,4 +1,4 @@
-alert ("compiler page loaded");
+console.log("COMPILER PAGE FILE LOADED");
 import {
   useEffect,
   useState,
@@ -15,27 +15,32 @@ import BackButton from "../components/BackButton";
 function CompilerPage() {
 
   const { id } = useParams();
+  console.log("CompilerPage rendered");
+console.log("Route ID =", id);
+console.log("API URL =", import.meta.env.VITE_API_URL);
 
   const [problem, setProblem] =
     useState(null);
 
-    debugger;
+  
   useEffect(() => {
       if (!id) return;
     fetch(
       `${import.meta.env.VITE_API_URL}/problems/${id}`
     )
     
-      .then((res) => res.json())
-      .then((data) =>{
-       
+      .then((res) => {
+  console.log("Response status =", res.status);
+  console.log("Response ok =", res.ok);
+  return res.json();
+})
+      .then((data) => {
+  console.log("Problem API response =", data);
+  console.log("Problem title =", data?.title);
+  console.log("Problem sampleInput =", data?.sampleInput);
 
-         alert(
-    JSON.stringify(data)
-  );
-
-        setProblem(data)}
-      )
+  setProblem(data);
+})
       .catch((err) => {
         console.log(err);
       });
@@ -167,10 +172,7 @@ if (!id) {
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg">
 
 
-                  <h1 className="text-red-500 text-5xl">
-  PARENT SAMPLE:
-  {problem.sampleInput}
-</h1>
+                  
 
 
               <Compiler 

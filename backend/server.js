@@ -33,7 +33,8 @@ app.use(
   "https://gocode.store",
   "https://www.gocode.store",
   "https://go-code-six.vercel.app",
-  "http://localhost:5176",
+  "http://localhost:5173",
+  "http://localhost:5000/problems",
 ],
 
     methods: [

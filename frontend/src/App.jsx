@@ -14,9 +14,12 @@ import CompilerPage from "./pages/CompilerPage";
 
 import Leaderboard from "./pages/Leaderboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
 
   return (
+    <>
     <BrowserRouter>
 
       <Routes>
@@ -35,10 +38,7 @@ function App() {
           path="/problems"
           element={<Problems />}
         />
-        <Route
-  path="/problems/:id"
-  element={<ProblemDetails />}
-/>
+      
 
         <Route
           path="/compiler"
@@ -46,7 +46,7 @@ function App() {
         />
 
         <Route
-  path="/compiler/:id"
+  path="/problems/:id"
   element={<CompilerPage />}
 />
 
@@ -64,6 +64,8 @@ function App() {
       </Routes>
 
     </BrowserRouter>
+    <ToastContainer position="top-right" />
+    </>
   );
 }
 

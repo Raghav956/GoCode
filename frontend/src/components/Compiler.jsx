@@ -4,7 +4,8 @@ import {
 } from "react";
 
 import Editor from "@monaco-editor/react";
-alert("Compiler mounted");
+import { toast } from "react-toastify";
+
 function Compiler({ problemId,
   sampleInput, }) {
 
@@ -53,7 +54,7 @@ public class Main {
       boilerplates.cpp
     );
 
-debugger;
+
 
   console.log("sampleInput =", sampleInput);
 const [input, setInput] =
@@ -139,8 +140,18 @@ const [input, setInput] =
 
   const handleSubmit =
   async () => {
+    const token = localStorage.getItem("token");
+
+  if (!token) {
+    toast.error("Please login to submit your solution");
+    return;
+  }
 
     try {
+
+
+
+      
 
       setSubmitLoading(true);
 
@@ -192,9 +203,16 @@ const [input, setInput] =
 
   const handleReview =
     async () => {
+          const token = localStorage.getItem("token");
+
+if (!token) {
+  toast.error("Please login to use AI Review");
+  return;
+}
 
       try {
 
+    
         setReviewLoading(true);
 
         setReview("");
@@ -407,6 +425,11 @@ const [input, setInput] =
 
     fontFamily:
       "Fira Code, monospace",
+      
+       mouseWheelZoom: false,
+    scrollbar: {
+      alwaysConsumeMouseWheel: false,
+    },
 
     padding: {
       top: 20,
