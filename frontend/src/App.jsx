@@ -13,7 +13,7 @@ import ProblemDetails from "./pages/ProblemDetails";
 import CompilerPage from "./pages/CompilerPage";
 
 import Leaderboard from "./pages/Leaderboard";
-
+import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
 
   return (
@@ -46,9 +46,20 @@ function App() {
         />
 
         <Route
-          path="/leaderboard"
-          element={<Leaderboard />}
-        />
+  path="/compiler/:id"
+  element={<CompilerPage />}
+/>
+
+      
+
+        <Route
+  path="/leaderboard"
+  element={
+    <ProtectedRoute>
+      <Leaderboard />
+    </ProtectedRoute>
+  }
+/>
 
       </Routes>
 

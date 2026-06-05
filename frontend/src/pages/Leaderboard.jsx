@@ -19,7 +19,7 @@ function Leaderboard() {
   useEffect(() => {
 
     fetch(
-      "http://localhost:5000/leaderboard"
+      `${import.meta.env.VITE_API_URL}/leaderboard`
     )
       .then((res) => res.json())
       .then((data) => {

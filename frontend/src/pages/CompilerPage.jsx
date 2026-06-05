@@ -1,3 +1,4 @@
+alert ("compiler page loaded");
 import {
   useEffect,
   useState,
@@ -18,20 +19,41 @@ function CompilerPage() {
   const [problem, setProblem] =
     useState(null);
 
+    debugger;
   useEffect(() => {
-
+      if (!id) return;
     fetch(
-      `http://localhost:5000/problems/${id}`
+      `${import.meta.env.VITE_API_URL}/problems/${id}`
     )
+    
       .then((res) => res.json())
-      .then((data) =>
-        setProblem(data)
+      .then((data) =>{
+       
+
+         alert(
+    JSON.stringify(data)
+  );
+
+        setProblem(data)}
       )
       .catch((err) => {
         console.log(err);
       });
 
   }, [id]);
+
+
+if (!id) {
+
+  return (
+    <MainLayout>
+      <div className="p-8">
+        <Compiler />
+      </div>
+    </MainLayout>
+  );
+}
+
 
   if (!problem) {
 
@@ -144,7 +166,17 @@ function CompilerPage() {
 
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg">
 
-              <Compiler problemId={id} />
+
+                  <h1 className="text-red-500 text-5xl">
+  PARENT SAMPLE:
+  {problem.sampleInput}
+</h1>
+
+
+              <Compiler 
+              problemId={id} 
+              sampleInput={problem.sampleInput}
+              />
 
             </div>
 

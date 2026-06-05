@@ -15,7 +15,7 @@ function ProblemDetails() {
   useEffect(() => {
 
     fetch(
-      `http://localhost:5000/problems/${id}`
+      `${import.meta.env.VITE_API_URL}/problems/${id}`
     )
       .then((res) => res.json())
       .then((data) => {
